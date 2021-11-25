@@ -1,56 +1,75 @@
 import React, { Component } from 'react';
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 'reactstrap';
+import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 
 class DishDetail extends Component {
-	constructor(props) {
-		super(props);
-	};
 
 	renderDish(dish) {
-		return (
-			<Card>
-				<CardImg src={dish.image} alt={dish.name} />
-				<CardBody>
-					<CardTitle>{dish.name}</CardTitle>
-					<CardText>{dish.description}</CardText>
-				</CardBody>
-			</Card>
-		);
+		if (dish != null) {
+			return (
+				<Card>
+					<CardImg src={dish.image} alt={dish.name} />
+					<CardBody>
+						<CardTitle>{dish.name}</CardTitle>
+						<CardText>{dish.description}</CardText>
+					</CardBody>
+				</Card>
+			);
+		}
+		else {
+			return (
+				<div></div>
+			);
+		}
 	};
 
 	renderComments(comments) {
-		const comms = comments.map((comm) => {
+		console.log('asdfasdf');
+		if (Array.isArray(comments) && comments.length) {
+			const comms = comments.map((comm) => {
+				return (
+					<li key={comm.id}>
+						<p>{comm.comment}</p>
+						<p>-- {comm.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comm.date)))}</p>
+					</li>
+				);
+			});
 			return (
-				<li key={comm.id}>
-					<p>{comm.comment}</p>
-					<p>-- {comm.author}, {comm.date}</p>
-				</li>
+				<div>
+					<h4>Comments</h4>
+					<ul className="list-unstyled">
+						{comms}
+					</ul>
+				</div>
 			);
-		});
-
-		return (
-			<div>
-				<h4>Comments</h4>
-				<ul className="list-unstyled">
-					{comms}
-				</ul>
-			</div>
-		);
+		}
+		else {
+			return (
+				<div></div>
+			);
+		}
 	};
 
 	render() {
-		return (
-			<div className="container">
-				<div className="row">
-					<div className="col-12 col-md-5 m-1">
-						{this.renderDish(this.props.dish)}
-					</div>
-					<div className="col-12 col-md-5 m-1">
-						{this.renderComments(this.props.dish.comments)}
+		if (this.props.dish != null) {
+			return (
+				<div className="container">
+					<div className="row">
+						<div className="col-12 col-md-5 m-1">
+							{this.renderDish(this.props.dish)}
+						</div>
+						<div className="col-12 col-md-5 m-1">
+							{this.renderComments(this.props.dish.comments)}
+						</div>
 					</div>
 				</div>
-			</div>
-		);
+			);
+		}
+		else {
+			return (
+				<div></div>
+			);
+		}
+
 	}
 };
 
