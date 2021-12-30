@@ -4,6 +4,7 @@ import { Card, CardImg, CardText, CardBody,
 	Modal, ModalHeader, ModalBody, Label, Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
+import { Loading } from './LoadingComponent';
 //FUNCIONES QUE VALIDAN EL CAMPO DEL COMPONENTE CONTROL
 
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -87,25 +88,6 @@ class CommentForm extends Component{
 	};
 }
 
-function RenderDish({ dish }) {
-	if (dish != null) {
-		return (
-			<Card>
-				<CardImg src={dish.image} alt={dish.name} />
-				<CardBody>
-					<CardTitle>{dish.name}</CardTitle>
-					<CardText>{dish.description}</CardText>
-				</CardBody>
-			</Card>
-		);
-	}
-	else {
-		return (
-			<div></div>
-		);
-	}
-};
-
 function RenderComments({ comments, addComment, dishId }) {
 	if (Array.isArray(comments) && comments.length) {
 		const comms = comments.map((comm) => {
@@ -136,7 +118,43 @@ function RenderComments({ comments, addComment, dishId }) {
 };
 
 const DishDetail = (props) => {
-	console.log('DishDetail render');
+	function RenderDish() {
+		if (props.isLoading) {
+			return(
+				<div className="container">
+					<div className="row">            
+						<Loading />
+					</div>
+				</div>
+			);
+		}
+		else if (props.errMess) {
+			return(
+				<div className="container">
+					<div className="row">            
+						<h4>{props.errMess}</h4>
+					</div>
+				</div>
+			);
+		}
+		else if (props.dish != null) {
+			return (
+				<Card>
+					<CardImg src={props.dish.image} alt={props.dish.name} />
+					<CardBody>
+						<CardTitle>{props.dish.name}</CardTitle>
+						<CardText>{props.dish.description}</CardText>
+					</CardBody>
+				</Card>
+			);
+		}
+		else {
+			return (
+				<div></div>
+			);
+		}
+	};
+
 	if (props.dish != null) {
 		return (
 			<div className="container">
@@ -152,7 +170,7 @@ const DishDetail = (props) => {
 				</div>
 				<div className="row">
 					<div className="col-12 col-md-5 m-1">
-						<RenderDish dish={props.dish} />
+						<RenderDish />
 					</div>
 					<div className="col-12 col-md-5 m-1">
 						<RenderComments comments={props.comments}
