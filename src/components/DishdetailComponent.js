@@ -5,6 +5,7 @@ import { Card, CardImg, CardText, CardBody,
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 //FUNCIONES QUE VALIDAN EL CAMPO DEL COMPONENTE CONTROL
 
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -140,7 +141,7 @@ const DishDetail = (props) => {
 		else if (props.dish != null) {
 			return (
 				<Card>
-					<CardImg src={props.dish.image} alt={props.dish.name} />
+					<CardImg top src={baseUrl + props.dish.image} alt={props.dish.name} />
 					<CardBody>
 						<CardTitle>{props.dish.name}</CardTitle>
 						<CardText>{props.dish.description}</CardText>
