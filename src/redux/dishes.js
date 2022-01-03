@@ -5,11 +5,11 @@ export const Dishes = (state = { isLoading: true,
     dishes:[]}, action) => {
     switch (action.type) {
         case ActionTypes.ADD_DISHES:
-            console.log({...state, isLoading: false, errMess: null, dishes: action.payload});//Original
-            return {isLoading: false, errMess: null, dishes: action.payload};
+            //console.log({...state, isLoading: false, errMess: null, dishes: action.payload});Original
+            return {...state, isLoading: false, errMess: null, dishes: action.payload};
 
         case ActionTypes.DISHES_LOADING:
-            return {...state, isLoading: true, errMess: null, dishes: []}
+            return {...state, isLoading: true, errMess: null, dishes: []};
 
         case ActionTypes.DISHES_FAILED:
             return {...state, isLoading: false, errMess: action.payload};
